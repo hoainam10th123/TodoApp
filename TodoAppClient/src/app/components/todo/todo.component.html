@@ -1,0 +1,72 @@
+<div class="row">
+    <div class="col-12">
+        <div style="margin: 5px;">
+            <button class="btn btn-primary" (click)="openModal()">Add todo</button>
+        </div>  
+        <div style="margin: 5px;">
+            <button class="btn btn-success" (click)="runQuartz()">Run Quartz</button>
+        </div>      
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">
+                    Cancel
+                </div>
+            </div>
+            <div class="card-body">
+                <div cdkDropList #cancelList="cdkDropList" [cdkDropListData]="todoCancel" [cdkDropListConnectedTo]="[doingList,doneList]"
+                    class="example-list" (cdkDropListDropped)="drop($event)">
+                    <div class="example-box" *ngFor="let item of todoCancel" cdkDrag>{{item.name}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">
+                    Doing
+                </div>
+            </div>
+            <div class="card-body">
+                <div cdkDropList #doingList="cdkDropList" [cdkDropListData]="todoDoing" [cdkDropListConnectedTo]="[cancelList,doneList]"
+                    class="example-list" (cdkDropListDropped)="drop($event)">
+                    <div class="example-box" *ngFor="let item of todoDoing" cdkDrag>
+                        {{item.name}}
+
+                        <div class="card" *cdkDragPreview>
+                            <div class="bg-success card-header">
+                                <h4 style="color: white;">{{item.name}}</h4>
+                            </div>
+                            <div class="card-body" *ngIf="item.description || item.description !== ''">
+                                <p style="margin: 0;">{{item.description}}</p>
+                            </div>
+                            <div class="card-footer d-flex">
+                                <div class="text-success">Start: {{item.startDate | date: 'dd-MM-yyyy'}}</div>
+                                <div class="text-danger"> End: {{item.endDate | date: 'dd-MM-yyyy'}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">
+                    Done
+                </div>
+            </div>
+            <div class="card-body">
+                <div cdkDropList #doneList="cdkDropList" [cdkDropListData]="todoDone" [cdkDropListConnectedTo]="[cancelList,doingList]"
+                    class="example-list" (cdkDropListDropped)="drop($event)">
+                    <div class="example-box" *ngFor="let item of todoDone" cdkDrag>{{item.name}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
